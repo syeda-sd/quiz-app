@@ -1,38 +1,358 @@
-.App {
-  text-align: center;
+/* GLOBAL */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body {
+  background-color: #f5f5f5; /* light grey background */
+  color: #333; 
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+/* APP CONTAINER */
+.app {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   min-height: 100vh;
+  padding: 20px;
+}
+
+/* CARD CONTAINER */
+.card {
+  background-color: #EEFAF7; /* off-white */
+  width: 100%;
+  max-width: 700px;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+/* QUIZ HEADER */
+.quiz-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.quiz-header h2 {
+  font-size: 1.5rem;
+  color: #026b51; 
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #026b51; 
+  transition: transform 0.2s ease;
+}
+
+.close-btn:hover {
+  transform: scale(1.2);
+}
+
+/* QUESTION */
+.card p {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  min-height: 50px;
+  color: #333;
+}
+
+/* OPTIONS */
+.options {
   display: flex;
   flex-direction: column;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.option {
+  display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  gap: 10px;
+  padding: 12px 15px;
+  border: 2px solid #026b51;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: #ffffff;
 }
 
-.App-link {
-  color: #61dafb;
+.option:hover {
+  background-color: #8adfc5;
+  border-color: #06f5b9;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.option input[type="radio"] {
+  accent-color: #06f5b9;
+  cursor: pointer;
+}
+
+/* ACTION BUTTONS */
+.actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.actions button {
+  padding: 10px 25px;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #fff; 
+  background-color: #026b51;
+}
+
+.actions button:disabled {
+  background-color: #067c5f;
+  cursor: not-allowed;
+}
+
+.actions button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 10px (#067c5f);
+}
+
+/* TIMER */
+.timer {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #067c5f;
+  margin-bottom: 20px;
+  text-align: right;
+}
+
+
+/* WELCOME PAGE */
+.welcome {
+  text-align: center;
+  background-color: #eefaf7;
+}
+
+.welcome h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #026b51;
+}
+
+.welcome p {
+  font-size: 1rem;
+  margin-bottom: 30px;
+}
+
+.start-btn {
+  padding: 12px 35px;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: #fff;
+  background-color: #026b51;
+  transition: all 0.2s ease;
+}
+
+/* Hover effect */
+.start-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 10px #011a16;
+}
+
+/* MOBILE */
+@media (max-width: 480px) {
+  .welcome h1 {
+    font-size: 1.5rem;
   }
-  to {
-    transform: rotate(360deg);
+
+  .welcome p {
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+  }
+
+  .start-btn {
+    padding: 10px 25px;
+    font-size: 1rem;
+  }
+}
+
+
+/* ------------------ RESULT PAGE ------------------ */
+.result {
+  text-align: center;
+  padding: 30px 20px;
+  background-color: #eefaf7; 
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  max-width: 700px;
+  margin: auto;
+}
+
+/* Heading */
+.result h1 {
+  font-size: 2rem;
+  color: #067c5f; /* orange */
+  margin-bottom: 15px;
+}
+
+/* Score paragraph */
+.result p {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+/* Grade */
+.result .grade {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #026b51; 
+}
+
+/* Message */
+.result .message {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  color: #555; /* dark grey for message */
+}
+
+/* Restart button container */
+.restart-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+/* Restart button */
+.result button {
+  padding: 12px 35px;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: #fff;
+  background-color: #026b51; 
+  transition: all 0.2s ease;
+}
+
+.result button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 10px rgba(2, 61, 46, 0.4);
+}
+
+/* ------------------ MOBILE ------------------ */
+@media (max-width: 480px) {
+  .result {
+    padding: 20px 15px;
+  }
+
+  .result h1 {
+    font-size: 1.6rem;
+  }
+
+  .result p {
+    font-size: 1.2rem;
+  }
+
+  .result .grade {
+    font-size: 1.1rem;
+  }
+
+  .result .message {
+    font-size: 1rem;
+  }
+
+  .result button {
+    padding: 10px 25px;
+    font-size: 1rem;
+  }
+}
+
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .card {
+    padding: 20px;
+  }
+
+  .actions button {
+    padding: 8px 20px;
+    font-size: 0.9rem;
+  }
+
+  .option {
+    padding: 10px 12px;
+  }
+
+  .quiz-header h2 {
+    font-size: 1.3rem;
+  }
+
+  .welcome h1, .result h1 {
+    font-size: 1.5rem;
+  }
+
+  .welcome p, .result p, .result .message {
+    font-size: 1rem;
+  }
+}
+/* SELECTED OPTION STYLE */
+.option.selected {
+  background-color: #b0f7e5; 
+  border-color: #026b51; 
+}
+
+/* TIMER */
+.timer {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #026b51;
+  text-align: right;
+  margin-bottom: 15px;
+}
+
+/* QUIZ HEADER */
+.quiz-header h2 {
+  font-size: 1.4rem;
+}
+
+.close-btn {
+  font-size: 1.6rem;
+}
+
+@media (max-width: 480px) {
+  .option {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+
+  .actions button {
+    padding: 8px 18px;
+    font-size: 0.9rem;
+  }
+
+  .quiz-header h2 {
+    font-size: 1.2rem;
+  }
+
+  .timer {
+    font-size: 1rem;
   }
 }
