@@ -4,61 +4,56 @@ import { motion } from "framer-motion";
 import Timer from "./Timer";
 import { questions } from "../data/questions";
 
-// Sounds
-const clickSound = new Audio("/sounds/click.mp3");
-const correctSound = new Audio("/sounds/correct.mp3");
-const wrongSound = new Audio("/sounds/wrong.mp3");
-const finishSound = new Audio("/sounds/finish.mp3");
+// 🔊 Sounds (from public folder)
+const clickSound = new Audio(process.env.PUBLIC_URL + "/sounds/click.mp3");
+const correctSound = new Audio(process.env.PUBLIC_URL + "/sounds/correct.mp3");
+const wrongSound = new Audio(process.env.PUBLIC_URL + "/sounds/wrong.mp3");
+const finishSound = new Audio(process.env.PUBLIC_URL + "/sounds/finish.mp3");
 
 const Quiz = ({ onFinish, onExit }) => {
   const [index, setIndex] = useState(0);
   const [selected, setSelected] = useState(null);
   const [score, setScore] = useState(0);
 
-  // Option select
+  const q = questions[index];
+
+  // ✅ Option select handler
   const handleSelect = (i) => {
     setSelected(i);
-    clickSound.play();
-    if (i === questions[index].answer) {
-      correctSound.play();
+    clickSound.play(); // Play click
+    if (i === q.answer) {
+      correctSound.play(); // Play correct
     } else {
-      wrongSound.play();
+      wrongSound.play(); // Play wrong
     }
   };
 
-  // Next question (warning-free)
-  const nextQuestion = () => {
-    setScore(prevScore =>
-      selected === questions[index].answer ? prevScore + 1 : prevScore
-    );
-
+  // ✅ Next question
+  const nextQuestion = useCallback(() => {
+    setScore((prevScore) => (selected === q.answer ? prevScore + 1 : prevScore));
     setSelected(null);
 
     if (index + 1 < questions.length) {
-      setIndex(prev => prev + 1);
+      setIndex((prev) => prev + 1);
     } else {
       finishSound.play();
-      // Final score calculation
-      const finalScore =
-        selected === questions[index].answer ? score + 1 : score;
+      const finalScore = selected === q.answer ? score + 1 : score;
       onFinish(finalScore);
     }
-  };
+  }, [index, selected, q, score, onFinish]);
 
+  // ✅ Previous question
   const prevQuestion = () => {
     if (index > 0) {
-      setIndex(prev => prev - 1);
+      setIndex((prev) => prev - 1);
       setSelected(null);
     }
   };
 
-  // Timer callback
+  // ✅ Timer callback
   const onTimeUp = useCallback(() => {
     nextQuestion();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [index, selected]);
-
-  const q = questions[index];
+  }, [nextQuestion]);
 
   return (
     <motion.div
@@ -92,7 +87,7 @@ const Quiz = ({ onFinish, onExit }) => {
           >
             <input
               type="radio"
-              name="option"
+              name={`option-${index}`}
               checked={selected === i}
               onChange={() => handleSelect(i)}
             />
